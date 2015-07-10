@@ -38,7 +38,14 @@
       //   return "hsl("+ Math.random() * 360 + ",100%,50%)"
       //   })
 
+
+
+      //problems though is Big numbers, null, no responsive because all px right now.
+        //=>> scaling functions: allow to scale data accroding to set domain range.
       //
+      var linearScale = d3.scale.linear().range([0,100]).domain([0,120]);//should return one to one mapping, limit domain and range to calculate
+      //so takes [0,1] default and fits it inside 10 and will map values. so then
+      //just limit domain to largest data point and should constrict it.
     </script>
   </body>
 </html>
