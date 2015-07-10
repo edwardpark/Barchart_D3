@@ -19,7 +19,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <script>
-      var data = [4,8,15,16,23,42];
+      var data = [4,8,15,16,23,410];
       var chart = d3.select(".chart");
       var rects = chart.selectAll("div").data(data).enter();
       //notice we are doing this before the divs even exists..why?
@@ -30,7 +30,13 @@
       //while we are adding new data.
       var newRects = rects.append("div");//new data coming in.
       newRects.text(function(d){return d});
-      newRects.style("width", function(d){return d *10 + "px"});
+
+      //but what if you don't know extent of max value of data?
+      var max = d3.max(data, function(d){
+        return d; //why even need this function? becuse you are using it on a array of objects and if you have a very large array and d3 is not smart enough to just look for hte largest number and thus you need to explicitly state it.
+      })
+
+
       newRects.style("background-color", function(d) {
         return "rgb(0,0," + d*5+")"})
 
@@ -43,9 +49,13 @@
       //problems though is Big numbers, null, no responsive because all px right now.
         //=>> scaling functions: allow to scale data accroding to set domain range.
       //
-      var linearScale = d3.scale.linear().range([0,100]).domain([0,120]);//should return one to one mapping, limit domain and range to calculate
+      var linearScale = d3.scale.linear().range([0,100]).domain([0,max]);//should return one to one mapping, limit domain and range to calculate
       //so takes [0,1] default and fits it inside 10 and will map values. so then
       //just limit domain to largest data point and should constrict it.
+      newRects.style("width", function(d){return linearScale(d) + "px"});
+
+
+
     </script>
   </body>
 </html>
